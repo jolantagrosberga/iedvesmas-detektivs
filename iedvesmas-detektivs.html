@@ -6,351 +6,167 @@
 <title>Iedvesmas Detektīvs</title>
 <style>
   :root{
-    --ink:#1F4E79;
-    --accent:#C75000;
-    --bg1:#EEF6E6;
-    --bg2:#DCEBD0;
-    --green-mid:#6E9B5E;
-    --green-deep:#35562E;
-    --cream:#FCFBF5;
-    --border:#CFE3C2;
-    --text:#2B3A2B;
+    --ink:#1F4E79; --accent:#C75000;
+    --bg1:#EEF6E6; --bg2:#DCEBD0;
+    --green-mid:#6E9B5E; --green-deep:#35562E;
+    --cream:#FCFBF5; --border:#CFE3C2; --text:#2B3A2B;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    font-family:'Candara','Segoe UI',sans-serif;
+  html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;}
+  body{font-family:'Candara','Segoe UI',sans-serif;color:var(--text);background:var(--bg2);}
+  #app{
+    position:absolute;top:0;left:0;width:1600px;height:900px;transform-origin:0 0;overflow:hidden;
     background:
       radial-gradient(circle at 12% 8%, rgba(110,155,94,0.16), transparent 45%),
       radial-gradient(circle at 88% 92%, rgba(199,80,0,0.08), transparent 40%),
       linear-gradient(180deg, var(--bg1), var(--bg2));
-    min-height:100vh;
-    color:var(--text);
-    display:flex;
-    justify-content:center;
-    padding:28px 16px 48px;
-  }
-  .wrap{ width:100%; max-width:920px; }
-  header{ text-align:center; margin-bottom:20px; }
-  h1{
-    color:var(--ink);
-    font-size:clamp(26px,5vw,36px);
-    margin:0 0 6px;
-    font-weight:700;
-  }
-  header p{
-    margin:0 auto; max-width:620px;
-    color:var(--green-deep); font-size:15px; line-height:1.5;
+    display:flex;flex-direction:column;padding:18px 28px 22px;
   }
 
-  .cat-tabs{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:18px;
-  }
-  .cat-btn{
-    display:flex; align-items:center; gap:8px;
-    padding:10px 20px;
-    border-radius:999px;
-    border:2px solid var(--border);
-    background:#fff;
-    color:var(--green-deep);
-    font-family:inherit; font-size:16px; font-weight:700;
-    cursor:pointer;
-    transition:all .18s ease;
-  }
-  .cat-btn:hover{ border-color:var(--green-mid); }
-  .cat-btn.active{
-    background:var(--green-mid);
-    border-color:var(--green-mid);
-    color:#fff;
-    box-shadow:0 4px 12px rgba(110,155,94,0.4);
-  }
-  .cat-btn .ic{ font-size:20px; }
+  /* ── galvene ── */
+  header{display:flex;align-items:center;gap:24px;margin-bottom:14px;flex:none;}
+  .title h1{color:var(--ink);font-size:36px;margin:0;font-weight:700;line-height:1.05;}
+  .title p{margin:5px 0 0;color:var(--green-deep);font-size:15.5px;line-height:1.4;max-width:620px;}
+  .cat-tabs{display:flex;gap:10px;margin-left:auto;}
+  .cat-btn{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:2px solid var(--border);
+    background:#fff;color:var(--green-deep);font-family:inherit;font-size:16.5px;font-weight:700;cursor:pointer;transition:all .18s ease;white-space:nowrap;}
+  .cat-btn:hover{border-color:var(--green-mid);}
+  .cat-btn.active{background:var(--green-mid);border-color:var(--green-mid);color:#fff;box-shadow:0 4px 12px rgba(110,155,94,0.4);}
+  .cat-btn .ic{font-size:20px;}
+  #fsBtn{font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);background:#fff;border:2px solid var(--ink);
+    border-radius:999px;padding:10px 18px;cursor:pointer;white-space:nowrap;transition:all .15s;}
+  #fsBtn:hover{background:var(--ink);color:#fff;}
 
-  .card-shell{
-    background:var(--cream);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:22px;
-    box-shadow:0 10px 28px rgba(53,86,46,0.10);
-  }
-  .toprow{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:16px;
-  }
-  .instructions{
-    font-size:14px;
-    color:var(--green-deep);
-  }
-  .instructions b{ color:var(--accent); }
-  .stats{
-    display:flex;
-    gap:16px;
-    font-size:15px;
-    font-weight:700;
-    color:var(--ink);
-  }
-  .stats span.n{ color:var(--accent); }
-  .reset-btn{
-    border:2px solid var(--green-mid);
-    background:#fff;
-    color:var(--green-deep);
-    font-family:inherit;
-    font-weight:700;
-    font-size:14px;
-    padding:8px 16px;
-    border-radius:999px;
-    cursor:pointer;
-    transition:all .15s ease;
-  }
-  .reset-btn:hover{ background:var(--green-mid); color:#fff; }
+  /* ── darba laukums ── */
+  .main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 500px;gap:22px;}
+  .board{background:var(--cream);border:1px solid var(--border);border-radius:18px;padding:18px 20px;
+    box-shadow:0 10px 28px rgba(53,86,46,0.10);display:flex;flex-direction:column;min-height:0;}
+  .board-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;flex:none;}
+  .instructions{font-size:16px;color:var(--green-deep);}
+  .instructions b{color:var(--accent);}
+  .legend{display:flex;gap:18px;font-size:15px;color:var(--text);}
+  .legend .dot{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:6px;vertical-align:-1px;}
+  .dot.art{background:var(--ink);} .dot.nat{background:var(--green-mid);}
+  .small-note{font-size:13px;color:#8fa085;margin-bottom:8px;font-style:italic;flex:none;}
+  .grid-area{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
+  .grid{display:grid;gap:14px;}
 
-  .legend{
-    display:flex; gap:18px; margin-bottom:14px; flex-wrap:wrap; font-size:13.5px; color:var(--text);
-  }
-  .legend .dot{ display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:6px; vertical-align:middle; }
-  .dot.art{ background:var(--ink); }
-  .dot.nat{ background:var(--green-mid); }
+  .card{perspective:900px;cursor:pointer;}
+  .card.matched{cursor:default;}
+  .card-inner{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.2,.9,.3,1);transform-style:preserve-3d;}
+  .card.flipped .card-inner, .card.matched .card-inner{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;}
+  .face-back{align-items:center;justify-content:center;
+    background:repeating-linear-gradient(135deg,#CFE3C2 0px,#CFE3C2 6px,#DCEBD0 6px,#DCEBD0 12px);
+    border:2px solid var(--border);font-size:38px;transition:border-color .15s;}
+  .card:not(.flipped):not(.matched):hover .face-back{border-color:var(--green-mid);}
+  .face-front{transform:rotateY(180deg);border:2px solid var(--border);background:#fff;}
+  .face-front.type-art{border-color:var(--ink);}
+  .face-front.type-nature{border-color:var(--green-mid);background:#F3F9EC;justify-content:center;align-items:center;}
+  .face-img{width:100%;height:54%;object-fit:cover;display:block;flex-shrink:0;}
+  .face-emoji-big{font-size:42px;margin-bottom:6px;}
+  .face-text{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px 5px 6px;gap:3px;}
+  .face-tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.4px;padding:2px 9px;border-radius:999px;}
+  .type-art .face-tag{background:var(--ink);color:#fff;}
+  .type-nature .face-tag{background:var(--green-mid);color:#fff;}
+  .face-title{font-size:14px;font-weight:800;line-height:1.2;color:var(--text);}
+  .type-nature .face-title{font-size:16px;}
+  .card.matched .face-front{opacity:0.55;}
+  .card.wrong .face-back{animation:shake .4s;background-color:#F6D9C9;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
 
-  .small-note{
-    font-size:12.5px;
-    color:#8fa085;
-    margin-bottom:14px;
-    font-style:italic;
-  }
-
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
-    gap:14px;
-  }
-  .card{
-    aspect-ratio:3/4;
-    perspective:900px;
-    cursor:pointer;
-  }
-  .card.matched{ cursor:default; }
-  .card-inner{
-    position:relative;
-    width:100%; height:100%;
-    transition:transform .5s cubic-bezier(.2,.9,.3,1);
-    transform-style:preserve-3d;
-  }
-  .card.flipped .card-inner, .card.matched .card-inner{
-    transform:rotateY(180deg);
-  }
-  .face{
-    position:absolute; inset:0;
-    backface-visibility:hidden;
-    border-radius:12px;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-  }
-  .face-back{
-    align-items:center;
-    justify-content:center;
-    background:
-      repeating-linear-gradient(135deg, #CFE3C2 0px, #CFE3C2 6px, #DCEBD0 6px, #DCEBD0 12px);
-    border:2px solid var(--border);
-    font-size:30px;
-  }
-  .face-front{
-    transform:rotateY(180deg);
-    border:2px solid var(--border);
-    background:#fff;
-  }
-  .face-front.type-art{ border-color:var(--ink); }
-  .face-front.type-nature{ border-color:var(--green-mid); background:#F3F9EC; justify-content:center; align-items:center; }
-
-  .face-img{
-    width:100%;
-    height:62%;
-    object-fit:cover;
-    display:block;
-    flex-shrink:0;
-  }
-  .face-emoji-big{
-    font-size:38px;
-    margin-bottom:6px;
-  }
-  .face-text{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:5px 5px 7px;
-    gap:3px;
-  }
-  .face-tag{
-    font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.4px;
-    padding:2px 9px; border-radius:999px;
-  }
-  .type-art .face-tag{ background:var(--ink); color:#fff; }
-  .type-nature .face-tag{ background:var(--green-mid); color:#fff; }
-  .face-title{ font-size:15.5px; font-weight:800; line-height:1.24; color:var(--text); }
-  .type-nature .face-title{ font-size:17px; }
-
-  .card.matched .face-front{ opacity:0.55; }
-  .card.wrong .face-back{ animation:shake .4s; background-color:#F6D9C9; }
-  @keyframes shake{
-    0%,100%{ transform:translateX(0); }
-    25%{ transform:translateX(-4px); }
-    75%{ transform:translateX(4px); }
-  }
-
-  .fact-panel{
-    margin-top:18px;
-    background:#F4F9EE;
-    border-left:4px solid var(--accent);
-    border-radius:8px;
-    padding:16px 18px;
-    font-size:16px;
-    line-height:1.6;
-    min-height:56px;
-    display:flex;
-    gap:16px;
-    align-items:flex-start;
-  }
-  .fact-image{
-    flex-shrink:0;
-    width:180px;
-    height:180px;
-    object-fit:cover;
-    border-radius:10px;
-    border:2px solid var(--border);
-    box-shadow:0 4px 12px rgba(53,86,46,0.15);
-  }
-  .fact-content{
-    flex:1;
-    min-width:0;
-  }
-  .fact-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-bottom:5px;
-  }
-  .speak-btn{
-    flex-shrink:0;
-    width:34px; height:34px;
-    border-radius:50%;
-    border:none;
-    background:var(--accent);
-    color:#fff;
-    font-size:16px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:transform .15s ease, background .15s ease;
-  }
-  .speak-btn:hover{ background:var(--ink); transform:scale(1.08); }
-  .speak-btn.speaking{ animation:pulse-speak 1s ease-in-out infinite; background:var(--ink); }
-  @keyframes pulse-speak{
-    0%,100%{ transform:scale(1); }
-    50%{ transform:scale(1.15); }
-  }
-  .fact-panel .tag{
-    display:block;
-    font-size:12px; font-weight:700; color:var(--ink);
-    text-transform:uppercase; letter-spacing:0.5px; margin-bottom:5px;
-  }
-  .voice-warning{
-    display:none;
-    margin-top:8px;
-    font-size:12.5px;
-    color:var(--accent);
-    font-style:italic;
-  }
-  .voice-warning.show{ display:block; }
-    display:none;
-    margin-top:14px;
-    background:linear-gradient(90deg, var(--green-mid), #8FB37E);
-    color:#fff;
-    border-radius:10px;
-    padding:14px 16px;
-    text-align:center;
-    font-weight:700;
-    font-size:16px;
-  }
-  .win-banner.show{ display:block; }
-
-  footer{ text-align:center; margin-top:18px; font-size:12px; color:#8fa085; }
-
-  @media (max-width:520px){
-    .grid{ grid-template-columns:repeat(2, 1fr); gap:10px; }
-    .face-title{ font-size:14px; }
-    .type-nature .face-title{ font-size:15px; }
-    .face-emoji-big{ font-size:30px; }
-    .card-shell{ padding:14px; }
-    .cat-btn{ padding:8px 14px; font-size:14px; }
-    .fact-panel{ font-size:14.5px; flex-direction:column; }
-    .fact-image{ width:100%; height:160px; }
-  }
+  /* ── labā kolonna ── */
+  .side{display:flex;flex-direction:column;gap:14px;min-height:0;}
+  .stats{display:flex;gap:12px;flex:none;}
+  .stat{flex:1;background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px 16px;}
+  .stat .l{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--green-deep);font-weight:700;}
+  .stat .n{font-size:30px;font-weight:800;color:var(--accent);line-height:1.1;}
+  .stat .t{font-size:20px;font-weight:700;color:var(--ink);}
+  .fact-panel{flex:1;min-height:0;background:#F4F9EE;border-left:5px solid var(--accent);border-radius:12px;
+    padding:16px 18px;display:flex;flex-direction:column;gap:12px;overflow:hidden;}
+  .fact-image{width:100%;height:200px;object-fit:cover;border-radius:10px;border:2px solid var(--border);
+    box-shadow:0 4px 12px rgba(53,86,46,0.15);flex:none;}
+  .fact-content{flex:1;min-height:0;display:flex;flex-direction:column;}
+  .fact-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;flex:none;}
+  .fact-panel .tag{font-size:13px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:0.5px;}
+  #factText{font-size:16.5px;line-height:1.55;overflow-y:auto;padding-right:6px;scrollbar-width:thin;}
+  .fact-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--green-deep);gap:10px;}
+  .fact-empty .big{font-size:64px;opacity:.75;}
+  .fact-empty p{margin:0;font-size:18px;line-height:1.5;max-width:360px;}
+  .speak-btn{flex-shrink:0;width:40px;height:40px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:18px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, background .15s ease;}
+  .speak-btn:hover{background:var(--ink);transform:scale(1.08);}
+  .speak-btn.speaking{animation:pulse-speak 1s ease-in-out infinite;background:var(--ink);}
+  @keyframes pulse-speak{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+  .voice-warning{display:none;margin-top:8px;font-size:13px;color:var(--accent);font-style:italic;}
+  .voice-warning.show{display:block;}
+  .win-banner{display:none;flex:none;background:linear-gradient(90deg, var(--green-mid), #8FB37E);color:#fff;
+    border-radius:12px;padding:12px 16px;text-align:center;font-weight:700;font-size:17px;}
+  .win-banner.show{display:block;}
+  .side-bottom{display:flex;align-items:center;gap:12px;flex:none;}
+  .reset-btn{border:2px solid var(--green-mid);background:#fff;color:var(--green-deep);font-family:inherit;font-weight:700;font-size:16px;
+    padding:10px 20px;border-radius:999px;cursor:pointer;transition:all .15s ease;white-space:nowrap;}
+  .reset-btn:hover{background:var(--green-mid);color:#fff;}
+  .note{font-size:12.5px;color:#7f9275;line-height:1.35;}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div id="app">
   <header>
-    <h1>Iedvesmas Detektīvs</h1>
-    <p>Katram mākslas darbam vai skulptūrai ir sava iedvesmas avota kartīte, kas paslēpta kaut kur šajā laukā. Atrodi pāri un atklāj, kā daba kļuvusi par mākslu.</p>
+    <div class="title">
+      <h1>Iedvesmas Detektīvs</h1>
+      <p>Katram mākslas darbam vai skulptūrai ir sava iedvesmas avota kartīte, kas paslēpta kaut kur šajā laukā. Atrodi pāri un atklāj, kā daba kļuvusi par mākslu.</p>
+    </div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <button id="fsBtn" type="button">⛶ Atvērt pilnekrānu</button>
   </header>
 
-  <div class="cat-tabs" id="catTabs"></div>
-
-  <div class="card-shell">
-    <div class="toprow">
-      <div class="instructions">Klikšķini uz <b>divām kartītēm</b>, lai pārbaudītu, vai tās veido pāri.</div>
-      <div class="stats">
-        <span>Mēģinājumi: <span class="n" id="attempts">0</span></span>
-        <span>Atrasti: <span class="n" id="found">0</span>/<span id="totalPairs">0</span></span>
-      </div>
-    </div>
-
-    <div class="legend">
-      <span><span class="dot art"></span>Mākslas darbs / skulptūra</span>
-      <span><span class="dot nat"></span>Dabas iedvesma</span>
-    </div>
-
-    <div class="small-note" id="smallNote" style="display:none;"></div>
-
-    <div class="grid" id="grid"></div>
-
-    <div class="fact-panel" id="factPanel">
-      <img class="fact-image" id="factImage" alt="" style="display:none;">
-      <div class="fact-content">
-        <div class="fact-header">
-          <span class="tag" id="factTag">Atklāj pārus</span>
-          <button class="speak-btn" id="speakBtn" title="Nolasīt skaļi" aria-label="Nolasīt skaļi">🔊</button>
+  <div class="main">
+    <section class="board">
+      <div class="board-top">
+        <div class="instructions">Klikšķini uz <b>divām kartītēm</b>, lai pārbaudītu, vai tās veido pāri.</div>
+        <div class="legend">
+          <span><span class="dot art"></span>Mākslas darbs / skulptūra</span>
+          <span><span class="dot nat"></span>Dabas iedvesma</span>
         </div>
-        <span id="factText">Šeit parādīsies fakti par katru atrasto pāri.</span>
-        <div class="voice-warning" id="voiceWarning">Audio failu neizdevās ielādēt, tāpēc izmantota pārlūka balss (var skanēt citā valodā). Pārbaudi, vai "audio" mape ar mp3 failiem atrodas tajā pašā vietā, kur šis HTML fails.</div>
       </div>
-    </div>
+      <div class="small-note" id="smallNote" style="display:none;"></div>
+      <div class="grid-area" id="gridArea"><div class="grid" id="grid"></div></div>
+    </section>
 
-    <div class="win-banner" id="winBanner"></div>
+    <aside class="side">
+      <div class="stats">
+        <div class="stat"><span class="l">Mēģinājumi</span><span class="n" id="attempts">0</span></div>
+        <div class="stat"><span class="l">Atrasti pāri</span><span class="n" id="found">0</span><span class="t"> / <span id="totalPairs">0</span></span></div>
+      </div>
 
-    <div style="text-align:center; margin-top:16px;">
-      <button class="reset-btn" id="resetBtn">↻ Sākt no jauna</button>
-    </div>
+      <div class="fact-panel" id="factPanel">
+        <img class="fact-image" id="factImage" alt="" style="display:none;">
+        <div class="fact-content">
+          <div class="fact-header">
+            <span class="tag" id="factTag">Atklāj pārus</span>
+            <button class="speak-btn" id="speakBtn" title="Nolasīt skaļi" aria-label="Nolasīt skaļi">🔊</button>
+          </div>
+          <div class="fact-empty" id="factEmpty">
+            <div class="big">🔍</div>
+            <p>Šeit parādīsies fakti par katru atrasto pāri.</p>
+          </div>
+          <span id="factText" style="display:none;"></span>
+          <div class="voice-warning" id="voiceWarning">Audio failu neizdevās ielādēt, tāpēc izmantota pārlūka balss (var skanēt citā valodā). Pārbaudi, vai mape “audio” ar mp3 failiem atrodas tajā pašā vietā, kur šis HTML fails.</div>
+        </div>
+      </div>
+
+      <div class="win-banner" id="winBanner"></div>
+
+      <div class="side-bottom">
+        <button class="reset-btn" id="resetBtn">↻ Sākt no jauna</button>
+        <span class="note">Dati netiek saglabāti — katrs skolēns spēlē neatkarīgi, un katra spēle sākas ar jaunu izkārtojumu.</span>
+      </div>
+    </aside>
   </div>
-
-  <footer>Dati netiek saglabāti — katrs skolēns spēlē neatkarīgi, un katra spēle sākas ar jaunu izkārtojumu.</footer>
 </div>
 
 <script>
-
 const categories = {
   koki: {
     label: "Koki un lapas",
@@ -396,14 +212,15 @@ const categories = {
   }
 };
 
-
 (function(){
   const grid = document.getElementById('grid');
+  const gridArea = document.getElementById('gridArea');
   const attemptsEl = document.getElementById('attempts');
   const foundEl = document.getElementById('found');
   const totalPairsEl = document.getElementById('totalPairs');
   const factTag = document.getElementById('factTag');
   const factText = document.getElementById('factText');
+  const factEmpty = document.getElementById('factEmpty');
   const factImage = document.getElementById('factImage');
   const speakBtn = document.getElementById('speakBtn');
   const voiceWarning = document.getElementById('voiceWarning');
@@ -415,19 +232,20 @@ const categories = {
   const supportsSpeech = 'speechSynthesis' in window;
   let voicesCache = [];
   function loadVoices(){ voicesCache = supportsSpeech ? window.speechSynthesis.getVoices() : []; }
-  if(supportsSpeech){
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-  }
+  if(supportsSpeech){ loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices; }
 
   let currentAudio = null;
   let currentFactRef = null; // {cat, id}
 
+  function showFact(text){
+    factEmpty.style.display = text ? 'none' : 'flex';
+    factText.style.display = text ? 'block' : 'none';
+    factText.textContent = text || '';
+    factText.scrollTop = 0;
+  }
+
   function stopSpeaking(){
-    if(currentAudio){
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-    }
+    if(currentAudio){ currentAudio.pause(); currentAudio.currentTime = 0; }
     if(supportsSpeech) window.speechSynthesis.cancel();
     speakBtn.classList.remove('speaking');
   }
@@ -438,16 +256,9 @@ const categories = {
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = 'lv-LV';
     const lvVoice = voicesCache.find(v => v.lang && v.lang.toLowerCase().replace('_','-').startsWith('lv'));
-    if(lvVoice){
-      utter.voice = lvVoice;
-      utter.lang = lvVoice.lang;
-      voiceWarning.classList.remove('show');
-    } else {
-      voiceWarning.classList.add('show');
-    }
-    utter.rate = 0.78;
-    utter.pitch = 1;
-    utter.volume = 1;
+    if(lvVoice){ utter.voice = lvVoice; utter.lang = lvVoice.lang; voiceWarning.classList.remove('show'); }
+    else { voiceWarning.classList.add('show'); }
+    utter.rate = 0.78; utter.pitch = 1; utter.volume = 1;
     speakBtn.classList.add('speaking');
     utter.onend = () => speakBtn.classList.remove('speaking');
     utter.onerror = () => speakBtn.classList.remove('speaking');
@@ -457,23 +268,14 @@ const categories = {
   function speakCurrentFact(){
     const text = factText.textContent.trim();
     if(!text) return;
-    if(speakBtn.classList.contains('speaking')){
-      stopSpeaking();
-      return;
-    }
+    if(speakBtn.classList.contains('speaking')){ stopSpeaking(); return; }
     if(currentFactRef){
       const src = 'audio/' + currentFactRef.cat + '_' + currentFactRef.id + '.mp3';
       currentAudio = new Audio(src);
       speakBtn.classList.add('speaking');
-      currentAudio.play().catch(() => {
-        speakBtn.classList.remove('speaking');
-        speakWithBrowserVoice(text);
-      });
+      currentAudio.play().catch(() => { speakBtn.classList.remove('speaking'); speakWithBrowserVoice(text); });
       currentAudio.onended = () => speakBtn.classList.remove('speaking');
-      currentAudio.onerror = () => {
-        speakBtn.classList.remove('speaking');
-        speakWithBrowserVoice(text);
-      };
+      currentAudio.onerror = () => { speakBtn.classList.remove('speaking'); speakWithBrowserVoice(text); };
     } else {
       speakWithBrowserVoice(text);
     }
@@ -482,20 +284,13 @@ const categories = {
 
   const catKeys = Object.keys(categories);
   let currentCat = catKeys[0];
-  let attempts = 0;
-  let foundCount = 0;
-  let flipped = [];
-  let lock = false;
+  let attempts = 0, foundCount = 0, flipped = [], lock = false;
 
   function shuffle(arr){
     const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]] = [a[j],a[i]];
-    }
+    for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; }
     return a;
   }
-
   function buildDeck(catData){
     const cards = [];
     catData.pairs.forEach(p=>{
@@ -504,14 +299,21 @@ const categories = {
     });
     return shuffle(cards);
   }
+  function pairById(catData, id){ return catData.pairs.find(p=>p.id===Number(id)); }
 
-  function factById(catData, id){
-    const found = catData.pairs.find(p=>p.id===Number(id));
-    return found ? found.fact : '';
-  }
-
-  function pairById(catData, id){
-    return catData.pairs.find(p=>p.id===Number(id));
+  // kartīšu režģis: izvēlas kolonnu skaitu, lai kartītes (3:4) būtu pēc iespējas lielākas
+  function fitGrid(n){
+    const W = gridArea.clientWidth, H = gridArea.clientHeight, gap = 14;
+    let best = {cols:4, w:100, h:133};
+    for(let cols=3; cols<=n; cols++){
+      const rows = Math.ceil(n/cols);
+      let w = (W - gap*(cols-1))/cols;
+      let h = w*4/3;
+      if(h*rows + gap*(rows-1) > H){ h = (H - gap*(rows-1))/rows; w = h*3/4; }
+      if(w > best.w) best = {cols, w, h};
+    }
+    grid.style.gridTemplateColumns = `repeat(${best.cols}, ${Math.floor(best.w)}px)`;
+    grid.style.gridAutoRows = Math.floor(best.h)+'px';
   }
 
   function renderTabs(){
@@ -536,21 +338,19 @@ const categories = {
     const catData = categories[currentCat];
     totalPairsEl.textContent = catData.pairs.length;
     grid.innerHTML = '';
-
     if(catData.pairs.length < 4){
       smallNote.style.display = 'block';
       smallNote.textContent = 'Šai tēmai pagaidām ir tikai ' + catData.pairs.length + ' pāri — drīz pievienosim vairāk!';
     } else {
       smallNote.style.display = 'none';
     }
-
     const deck = buildDeck(catData);
+    fitGrid(deck.length);
     deck.forEach((c)=>{
       const card = document.createElement('div');
       card.className = 'card';
       card.dataset.pairId = c.pairId;
       card.dataset.type = c.type;
-
       let frontInner = '';
       if(c.type === 'art'){
         frontInner = `
@@ -562,12 +362,11 @@ const categories = {
       } else {
         frontInner = `
           <div class="face-emoji-big">${catData.icon}</div>
-          <div class="face-text" style="padding-top:0;">
+          <div class="face-text" style="padding-top:0;flex:none;">
             <span class="face-tag">Daba</span>
             <span class="face-title">${c.title}</span>
           </div>`;
       }
-
       card.innerHTML = `
         <div class="card-inner">
           <div class="face face-back">${catData.backIcon}</div>
@@ -592,35 +391,30 @@ const categories = {
       const catData = categories[currentCat];
       if(isMatch){
         setTimeout(()=>{
-          a.classList.add('matched');
-          b.classList.add('matched');
+          a.classList.add('matched'); b.classList.add('matched');
           foundCount++;
           foundEl.textContent = foundCount;
           stopSpeaking();
           currentFactRef = {cat: currentCat, id: Number(a.dataset.pairId)};
-          factTag.textContent = 'Pāris atrasts!';
           const matchedPair = pairById(catData, a.dataset.pairId);
-          factText.textContent = matchedPair.fact;
+          factTag.textContent = 'Pāris atrasts: ' + matchedPair.art;
+          showFact(matchedPair.fact);
           factImage.src = matchedPair.img;
           factImage.style.display = 'block';
-          flipped = [];
-          lock = false;
+          flipped = []; lock = false;
           if(foundCount === catData.pairs.length){
-            winBanner.textContent = '🎉 Lieliski! Tu atklāji visus ' + catData.pairs.length + ' iedvesmas avotus tēmā "' + catData.label + '"!';
+            winBanner.textContent = '🎉 Lieliski! Tu atklāji visus ' + catData.pairs.length + ' iedvesmas avotus tēmā “' + catData.label + '”!';
             winBanner.classList.add('show');
           }
         }, 700);
       } else {
         factTag.textContent = 'Mēģini vēlreiz';
-        factText.textContent = 'Šī nebija pareizā kombinācija — atceries, kur redzēji šīs kartītes, un mēģini vēlreiz.';
+        if(!currentFactRef){ showFact('Šī nebija pareizā kombinācija — atceries, kur redzēji šīs kartītes, un mēģini vēlreiz.'); }
+        setTimeout(()=>{ a.classList.add('wrong'); b.classList.add('wrong'); }, 900);
         setTimeout(()=>{
-          a.classList.add('wrong'); b.classList.add('wrong');
-        }, 900);
-        setTimeout(()=>{
-          a.classList.remove('flipped','wrong');
-          b.classList.remove('flipped','wrong');
-          flipped = [];
-          lock = false;
+          a.classList.remove('flipped','wrong'); b.classList.remove('flipped','wrong');
+          flipped = []; lock = false;
+          if(currentFactRef){ factTag.textContent = 'Pēdējais atrastais pāris'; }
         }, 1700);
       }
     }
@@ -632,7 +426,7 @@ const categories = {
     attempts = 0; foundCount = 0; flipped = []; lock = false;
     attemptsEl.textContent = 0; foundEl.textContent = 0;
     factTag.textContent = 'Atklāj pārus';
-    factText.textContent = 'Šeit parādīsies fakti par katru atrasto pāri.';
+    showFact('');
     factImage.style.display = 'none';
     factImage.src = '';
     winBanner.classList.remove('show');
@@ -642,6 +436,36 @@ const categories = {
   resetBtn.addEventListener('click', resetGame);
   renderTabs();
   resetGame();
+})();
+
+/* ── 16:9 mērogošana un pilnekrāns ── */
+(function(){
+  const app = document.getElementById('app');
+  window.APP_SCALE = 1;
+  function fitApp(){
+    const W = window.innerWidth, H = window.innerHeight;
+    const s = Math.min(W/1600, H/900); window.APP_SCALE = s;
+    app.style.transform = 'scale(' + s + ')';
+    app.style.left = Math.max(0,(W-1600*s)/2) + 'px';
+    app.style.top  = Math.max(0,(H-900*s)/2) + 'px';
+  }
+  window.addEventListener('resize', fitApp); fitApp();
+  const btn = document.getElementById('fsBtn');
+  function isFs(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+  function fallback(){ if(confirm('Pilnekrāna režīms šajā logā nav pieejams. Atvērt rīku jaunā cilnē?')) window.open(location.href,'_blank'); }
+  function toggle(){
+    const el = document.documentElement;
+    try{
+      if(isFs()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else if(el.requestFullscreen) el.requestFullscreen().catch(fallback);
+      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else fallback();
+    }catch(e){ fallback(); }
+  }
+  function upd(){ btn.textContent = isFs() ? '✕ Iziet no pilnekrāna' : '⛶ Atvērt pilnekrānu'; setTimeout(fitApp, 60); }
+  btn.addEventListener('click', toggle);
+  document.addEventListener('fullscreenchange', upd);
+  document.addEventListener('webkitfullscreenchange', upd);
 })();
 </script>
 </body>
